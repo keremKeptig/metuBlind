@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:metublind/registerScreen.dart';
+import 'package:metublind/signInScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: MyHomePage(),
     );
   }
@@ -43,7 +45,10 @@ class MyHomePage extends StatelessWidget {
             SizedBox(height: 60),
             ElevatedButton(
               onPressed: () {
-                // Handle sign in operation
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => signInScreen()),
+                );
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.deepOrange),

@@ -11,9 +11,11 @@ environment:
 
 
 dependencies:
+
   flutter:
     sdk: flutter
   http: ^0.13.4
+  fluttertoast: ^8.0.7
 
 
 

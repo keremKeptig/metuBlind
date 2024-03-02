@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:metublind/main.dart';
 import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
 
 void main() {
   runApp(registerScreen());
@@ -14,6 +15,7 @@ class registerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pinkAccent[100],
@@ -52,11 +54,16 @@ class _UserFormState extends State<UserForm> {
     int gender = _selectedOption;
 
 
-    print(username.runtimeType);
-    print(password.runtimeType);
-    print(gender.runtimeType);
+    print(username);
+    print(password);
+    print(gender);
 
-    sendData(username, password, gender); // Veritabanına kaydetme işlemi burada gerçekleştirilir
+    if(username == "" || password == "" || gender == 0){
+      Fluttertoast.showToast(msg: "Please fill the form");
+    }
+    else{
+      sendData(username, password, gender); // Veritabanına kaydetme işlemi burada gerçekleştirilir
+    }
 
 
 
@@ -84,11 +91,21 @@ class _UserFormState extends State<UserForm> {
       };
       http.Response response = await http.post(url, body: jsonEncode(body), headers: headers);
 
-      if (response.statusCode == 200) {
-        final json = jsonDecode(response.body);
-        if(json['code'] == 0) {
-          print("okey");
-        }
+      if (response.statusCode == 201) {
+        Fluttertoast.showToast(msg: "User created successfully");
+      }
+      else if (response.statusCode == 400) {
+        print("kerem oldu");
+        Fluttertoast.showToast(msg: "Bad request: ${response.reasonPhrase}");
+        // Handle other specific error codes as needed
+      } else if (response.statusCode == 409) {
+        print("furkan popo yedi");
+        Fluttertoast.showToast(msg: "User already exist: ${response.reasonPhrase}");
+        // Handle other specific error codes as needed
+      } else if(response.statusCode == 422){
+        print("barıs gotten yedi");
+        Fluttertoast.showToast(msg: "Error: ${response.reasonPhrase}");
+        // Handle other general errors
       }
     }
     catch (e) {}
