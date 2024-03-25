@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:metublind/homeScreen.dart';
 import 'package:metublind/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
@@ -56,9 +57,7 @@ class _UserFormState extends State<UserForm> {
     print(username.runtimeType);
     print(password.runtimeType);
 
-    sendData(username, password); // Veritabanına kaydetme işlemi burada gerçekleştirilir
-
-
+    sendData(username, password);
 
     // Bilgiler kaydedildikten sonra giriş alanlarını temizleyin
     _usernameController.clear();
@@ -79,10 +78,9 @@ class _UserFormState extends State<UserForm> {
       http.Response response = await http.post(url, body: jsonEncode(body), headers: headers);
 
       if (response.statusCode == 201) {
-        print("amdsadsadsa");
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => MyApp()),
+          MaterialPageRoute(builder: (context) => homeScreen(username: username)),
         );
       }else if(response.statusCode == 401){
         Fluttertoast.showToast(msg: "Invalid credentials");
@@ -104,46 +102,56 @@ class _UserFormState extends State<UserForm> {
         title: Text('Welcome!'),
         backgroundColor: Colors.pinkAccent[100],
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextField(
-                controller: _usernameController,
-                decoration: InputDecoration(labelText: 'Username'),
-              ),
-              SizedBox(height: 5),
-              TextField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: InputDecoration(labelText: 'Password'),
-              ),
-              SizedBox(height: 35),
-
-
-              SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: _saveUserInformation,
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.deepOrange),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(r'C:\Users\PC\StudioProjects\metublind\android\images\backgroundMain.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextField(
+                  controller: _usernameController,
+                  decoration: InputDecoration(labelText: 'Username'),
                 ),
-                child: Text(
-                  'Sign In!',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
+                SizedBox(height: 5),
+                TextField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(labelText: 'Password'),
+                ),
+                SizedBox(height: 35),
+                SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: _saveUserInformation,
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.deepOrange),
+                  ),
+                  child: Text(
+                    'Sign In!',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
       backgroundColor: Colors.pinkAccent[100],
     );
   }
+
+
+
+
 }
 
 
