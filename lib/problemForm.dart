@@ -7,6 +7,8 @@ import 'package:metublind/homeScreen.dart';
 import 'package:metublind/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+
+
 void main() {
   runApp(ProblemScreen());
 }
@@ -20,6 +22,7 @@ class ProblemScreen extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
+          title: Text('Problem/Advice Form', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600)),
           backgroundColor: Colors.pinkAccent[100],
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
@@ -34,7 +37,7 @@ class ProblemScreen extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(r'C:\Users\userpc\Desktop\Android_studio\metu_blind\android\images\backgroundMain.png'), // Arka plan resmi buraya
+                  image: AssetImage(r'C:\Users\PC\StudioProjects\metublind\android\images\backgroundMain.png'), // Arka plan resmi buraya
                   fit: BoxFit.cover,
                 ),
               ),
@@ -60,7 +63,7 @@ class _ProblemFormState extends State<ProblemForm> {
   TextEditingController _commentController = TextEditingController();
 
   void _sendComment(message, username) async {
-    print(message); // örnek choiceString = "TFTFF"
+    print(message);
     print(username);
     sendReport(message, username);
     ScaffoldMessenger.of(context).showSnackBar(
@@ -71,31 +74,63 @@ class _ProblemFormState extends State<ProblemForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(20.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          TextField(
-            controller: _commentController,
-            maxLines: 5,
-            decoration: InputDecoration(
-              hintText: 'Type your comment here...',
-              border: OutlineInputBorder(),
-            ),
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(r'C:\Users\userpc\Desktop\Android_studio\metu_blind\android\images\backgroundMain.png'), // Arkaplandaki resmin yolunu belirtin
+            fit: BoxFit.cover,
           ),
-          SizedBox(height: 20.0),
-          ElevatedButton(
-            onPressed: () {
-              _sendComment(_commentController.text, widget.username);
-            },
-            child: Text('Send'),
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 51.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'You can contact us by filling out the form! If you have any complaints or any elements of the application that have a negative impact on you, or if you want to send us your advice and opinions, you can fill out the following form!',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 35.0),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      TextField(
+                        controller: _commentController,
+                        maxLines: 5,
+                        decoration: InputDecoration(
+                          hintText: 'Type your comment here...',
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.deepPurple, width: 10.0),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          _sendComment(_commentController.text, widget.username);
+                        },
+                        child: Text('Send'),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
+
+
+
+
 }
 
 

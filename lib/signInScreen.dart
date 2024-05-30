@@ -105,7 +105,7 @@ class _UserFormState extends State<UserForm> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(r'C:\Users\PC\StudioProjects\metublind\android\images\backgroundMain.png'),
+            image: AssetImage(r'C:\Users\userpc\Desktop\Android_studio\metu_blind\android\images\backgroundMain.png'),
             fit: BoxFit.cover,
           ),
         ),
